@@ -59,7 +59,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
-                                <th>Deskripsi</th>
+                                <th>Tipe</th>
+                                <th>Tingkat</th>
                                 <th>Gambar</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -69,7 +70,8 @@
                                 <tr>
                                     <td>{{ $index + $achievements->firstItem() }}</td>
                                     <td>{{ $data->title }}</td>
-                                    <td>{{ Str::limit($data->description, 60) }}</td>
+                                    <td>{{ $data->type == 'akademik' ? 'Akademik' : 'Non-Akademik' }}</td>
+                                    <td>{{ $data->level }}</td>
                                     <td>
                                         @if ($data->image)
                                             <a href="{{ asset('storage/' . $data->image) }}" target="_blank"

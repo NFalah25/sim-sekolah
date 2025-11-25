@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AchievementController extends Controller
 {
@@ -39,16 +40,30 @@ class AchievementController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'date' => 'required|date',
+            'type' => 'required|string',
+            'level' => 'required|string',
+            'image' => 'nullable|image|max:4096', // Maksimal 4MB
         ], [], [
             'title' => 'Judul Prestasi',
             'description' => 'Deskripsi',
             'date' => 'Tanggal',
+            'type' => 'Tipe Prestasi',
+            'level' => 'Tingkat Prestasi',
+            'image' => 'Gambar',
         ]);
+
+        if($request->hasFile('image')){
+            $imagePath = $request->file('image')->store('images/achievement', 'public');
+            $validate['image'] = $imagePath;
+        }
 
         Achievement::create([
             'title' => $validate['title'],
             'description' => $validate['description'],
             'date' => $validate['date'],
+            'type' => $validate['type'],
+            'level' => $validate['level'],
+            'image' => $validate['image'] ?? null,
         ]);
 
         return redirect()->route('achievements.index')->with('success', 'Prestasi berhasil ditambahkan.');
@@ -75,6 +90,41 @@ class AchievementController extends Controller
      */
     public function update(Request $request, Achievement $prestasi)
     {
+        $validate = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'date' => 'required|date',
+            'type' => 'required|string',
+            'level' => 'required|string',
+            'image' => 'nullable|image|max:4096', // Maksimal 4MB
+        ], [], [
+            'title' => 'Judul Prestasi',
+            'description' => 'Deskripsi',
+            'date' => 'Tanggal',
+            'type' => 'Tipe Prestasi',
+            'level' => 'Tingkat Prestasi',
+            'image' => 'Gambar',
+        ]);
+
+        if($request->hasFile('image')){
+            // Hapus gambar lama jika ada
+            if($prestasi->image && Storage::disk('public')->exists($prestasi->image)){
+                Storage::disk('public')->delete($prestasi->image);
+            }
+            $imagePath = $request->file('image')->store('images/achievement', 'public');
+            $validate['image'] = $imagePath;
+        }
+
+        $prestasi->update([
+            'title' => $validate['title'],
+            'description' => $validate['description'],
+            'date' => $validate['date'],
+            'type' => $validate['type'],
+            'level' => $validate['level'],
+            'image' => $validate['image'] ?? $prestasi->image,
+        ]);
+
+        return redirect()->route('achievements.index')->with('success', 'Prestasi berhasil diperbarui.');
 
     }
 
@@ -83,6 +133,11 @@ class AchievementController extends Controller
      */
     public function destroy(Achievement $achievement)
     {
-        //
+        $deleteImage = $achievement->image;
+        if ($deleteImage && Storage::disk('public')->exists($deleteImage)) {
+            Storage::disk('public')->delete($deleteImage);
+        }
+        $achievement->delete();
+        return redirect()->route('achievements.index')->with('success', 'Prestasi berhasil di hapus');
     }
 }

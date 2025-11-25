@@ -6,6 +6,7 @@ use App\Models\News;
 use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -109,8 +110,8 @@ class NewsController extends Controller
     public function destroy(News $beritum)
     {
         $deleteImage = $beritum->image;
-        if ($deleteImage && \Storage::disk('public')->exists($deleteImage)) {
-            \Storage::disk('public')->delete($deleteImage);
+        if ($deleteImage && Storage::disk('public')->exists($deleteImage)) {
+            Storage::disk('public')->delete($deleteImage);
         }
         $beritum->delete();
         return redirect()->route('berita.index')->with('success', 'Berita berhasil di hapus');

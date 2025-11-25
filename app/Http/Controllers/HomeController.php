@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use App\Models\Event;
+use App\Models\Extracurricular;
 use App\Models\Facility;
 use App\Models\News;
 use App\Models\Teacher;
@@ -93,7 +94,6 @@ class HomeController extends Controller
         });
 
 
-
         return view('Homepage.index', compact('news', 'facilities', 'achievements', 'events', 'teachers'));
     }
 
@@ -104,9 +104,72 @@ class HomeController extends Controller
 
     public function fasilitas()
     {
-        $fasilitas = Facility::select('name', 'image', 'description')->get();
+        $fasilitas = Facility::select('name', 'image', 'description')->paginate(3);
 
 
         return view('Menu.fasilitas', compact('fasilitas'));
     }
+
+    public function guru(Request $request)
+    {
+        if ($request->has('search')) {
+            $guru = Teacher::where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('position', 'like', '%' . $request->search . '%')
+                ->select('name', 'position', 'motivation', 'image')
+                ->paginate(1);
+            return view('Menu.guru', compact('guru'));
+        } else {
+            $guru = Teacher::select('name', 'position', 'motivation', 'image')->paginate(1);
+            return view('Menu.guru', compact('guru'));
+        }
+    }
+
+    public function berita(Request $request)
+    {
+
+        if ($request->has('search')) {
+            $berita = News::where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('content', 'like', '%' . $request->search . '%')
+                ->select('title', 'content', 'image', 'created_at')
+                ->paginate(8);
+        } else {
+            $berita = News::select('title', 'content', 'image', 'created_at')->paginate(8);
+        }
+
+        return view('Menu.berita', compact('berita'));
+    }
+
+    public function ekstrakurikuler(Request $request)
+    {
+        if ($request->has('search')) {
+            $ekstrakurikuler = Extracurricular::where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%')
+                ->select('name', 'description', 'image')
+                ->paginate(3);
+            return view('Menu.ekstrakurikuler', compact('ekstrakurikuler'));
+        } else {
+            $ekstrakurikuler = Extracurricular::select('name', 'description', 'image')->paginate(3);
+            return view('Menu.ekstrakurikuler', compact('ekstrakurikuler'));
+        }
+    }
+
+    public function prestasi(Request $request)
+    {
+        if ($request->has('search')) {
+            $prestasi = Achievement::where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%')
+                ->select('title', 'description', 'image', 'date')
+                ->paginate(8);
+            return view('Menu.prestasi', compact('prestasi'));
+        } else {
+            $prestasi = Achievement::select('title', 'description', 'image', 'date')->paginate(8);
+            return view('Menu.prestasi', compact('prestasi'));
+        }
+    }
+
+    public function pengumuman()
+    {
+        return view('Menu.pengumuman');
+    }
+
 }

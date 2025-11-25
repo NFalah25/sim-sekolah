@@ -14,7 +14,7 @@ class FacilityController extends Controller
     public function index()
     {
         $pageTitle = 'Fasilitas Sekolah';
-        $facilities = Facility::paginate(3);
+        $facilities = Facility::paginate(10);
         return view('Facility.index', compact('pageTitle', 'facilities'));
     }
 

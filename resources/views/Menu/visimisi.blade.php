@@ -1,6 +1,6 @@
 @extends('Layout.app')
 @section('content')
-    <div class="bg-white border-b mt-16 border-gray-100">
+    <div class="bg-white border-b mt-4 border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <p class="text-sm text-gray-500">
                 <a href="#" class="hover:text-primary">Beranda</a>
@@ -9,7 +9,7 @@
             </p>
         </div>
     </div>
-        <main class="max-w-4xl mx-auto px-4 pt-4 pb-12">
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-4">
 
         <!-- Header Title -->
         <div class="text-center mb-12 fade-in-up">

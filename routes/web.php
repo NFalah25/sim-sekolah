@@ -18,8 +18,13 @@ Route::get('/new', function () {
 Route::get('/new2', function () {
     return view('new2');
 });
-Route::get('/visi-misi', [HomeController::class, 'visiMisi'])->name('visi-misi');
-Route::get('/fasilitas', [HomeController::class, 'fasilitas'])->name('landing-fasilitas');
+Route::get('/visi-misi', [HomeController::class, 'visiMisi'])->name('landing.visi-misi');
+Route::get('/fasilitas', [HomeController::class, 'fasilitas'])->name('landing.fasilitas');
+Route::get('/guru', [HomeController::class, 'guru'])->name('landing.guru');
+Route::get('/berita', [HomeController::class, 'berita'])->name('landing.berita');
+Route::get('/ekstrakurikuler', [HomeController::class, 'ekstrakurikuler'])->name('landing.ekstrakurikuler');
+Route::get('/prestasi', [HomeController::class, 'prestasi'])->name('landing.prestasi');
+Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('landing.pengumuman');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Extracurricular;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ExtracurricularController extends Controller
 {
@@ -40,7 +41,7 @@ class ExtracurricularController extends Controller
             'name' => 'required|string|max:255|',
             'description' => 'required|string',
             'image' => 'required|image|max:4096|mimes:jpeg,png,jpg',
-            'pembina' => 'required|string|max:255',
+            'pembina' => 'nullable|string|max:255',
         ],[],[
             'name' => 'Nama Ekstrakurikuler',
             'description' => 'Deskripsi',
@@ -114,8 +115,8 @@ class ExtracurricularController extends Controller
      */
     public function destroy(Extracurricular $ekstrakurikuler)
     {
-        if($ekstrakurikuler->image && \Storage::disk('public')->exists($ekstrakurikuler->image)){
-            \Storage::disk('public')->delete($ekstrakurikuler->image);
+        if($ekstrakurikuler->image && Storage::disk('public')->exists($ekstrakurikuler->image)){
+            Storage::disk('public')->delete($ekstrakurikuler->image);
         }
         $ekstrakurikuler->delete();
         return redirect()->route('ekstrakurikuler.index')->with('success', 'Ekstrakurikuler berhasil dihapus.');

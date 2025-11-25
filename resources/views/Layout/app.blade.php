@@ -25,6 +25,8 @@
 {{-- @include('Layout.footer') --}}
 
 </body>
-@stack('scripts')
 <script src="https://kit.fontawesome.com/d881b9b36f.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+@stack('scripts')
 </html>

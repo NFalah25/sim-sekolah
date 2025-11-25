@@ -18,37 +18,80 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
-                                <label for="name" class="font-weight-semibold">Nama Prestasi</label>
-                                <input type="text" id="name" name="name"
-                                       placeholder="Contoh: Olimpiade Sains Nasional" value="{{old('name')}}"
-                                       class="form-control rounded-lg @error('name') is-invalid @enderror">
-                                @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                <label for="title" class="font-weight-semibold">Nama Prestasi</label>
+                                <input type="text" id="title" name="title"
+                                    placeholder="Contoh: Olimpiade Sains Nasional" value="{{ old('title') }}"
+                                    class="form-control rounded-lg @error('title') is-invalid @enderror">
+                                @error('title')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="description" class="font-weight-semibold">Deskripsi</label>
-                                <textarea id="description" name="description" rows="6"
-                                          placeholder="Tuliskan deskripsi prestasi..."
-                                          class="form-control rounded-lg  @error('description') is-invalid @enderror"
-                                          style="height: auto">{{old('description')}}</textarea>
+                                <textarea id="description" name="description" rows="6" placeholder="Tuliskan deskripsi prestasi..."
+                                    class="form-control rounded-lg  @error('description') is-invalid @enderror" style="height: auto">{{ old('description') }}</textarea>
                                 @error('description')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="level" class="font-weight-semibold">Tingkat Prestasi</label>
+                                <select id="level" name="level"
+                                    class="form-control rounded-lg  @error('level') is-invalid @enderror">
+                                    <option value="" disabled selected>Pilih tingkat prestasi</option>
+                                    <option value="sekolah" {{ old('level') == 'sekolah' ? 'selected' : '' }}>Tingkat
+                                        Sekolah
+                                    </option>
+                                    <option value="kecamatan" {{ old('level') == 'kecamatan' ? 'selected' : '' }}>
+                                        Tingkat Kecamatan
+                                    </option>
+                                    <option value="kabupaten" {{ old('level') == 'kabupaten' ? 'selected' : '' }}>
+                                        Tingkat Kabupaten/Kota
+                                    </option>
+                                    <option value="provinsi" {{ old('level') == 'provinsi' ? 'selected' : '' }}>
+                                        Tingkat Provinsi
+                                    </option>
+                                    <option value="nasional" {{ old('level') == 'nasional' ? 'selected' : '' }}>Tingkat
+                                        Nasional
+                                    </option>
+                                    <option value="internasional" {{ old('level') == 'internasional' ? 'selected' : '' }}>
+                                        Tingkat Internasional
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="type" class="font-weight-semibold">Tipe Prestasi</label>
+                                <select id="type" name="type"
+                                    class="form-control rounded-lg  @error('type') is-invalid @enderror">
+                                    <option value="" disabled selected>Pilih tipe prestasi</option>
+                                    <option value="akademik" {{ old('type') == 'akademik' ? 'selected' : '' }}>Akademik
+                                    </option>
+                                    <option value="non-akademik" {{ old('type') == 'non-akademik' ? 'selected' : '' }}>
+                                        Non-Akademik
+                                    </option>
+                                </select>
+                                @error('type')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="date" class="font-weight-semibold">Tanggal Prestasi</label>
-                                <input type="text" class="form-control datepicker @error('date') is-invalid @enderror" id="date" name="date" value="{{old('date')}}">
+                                <input type="text" class="form-control datepicker @error('date') is-invalid @enderror"
+                                    id="date" name="date" value="{{ old('date') }}">
                                 @error('date')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
                         </div>
@@ -58,50 +101,48 @@
                                 <label for="image" class="font-weight-semibold">Gambar</label>
 
                                 <div id="native-dropzone" class="native-dropzone @error('image') border-error @enderror"
-                                     tabindex="0">
+                                    tabindex="0">
                                     <div id="native-placeholder" class="native-placeholder">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="native-icon" viewBox="0 0 24 24"
-                                             fill="none" stroke="{{ $errors->has('image') ? '#ff4d4f' : '#3396D3' }}"
-                                             stroke-width="1.5" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path
-                                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5"/>
-                                            <path d="M7 10.5l5-7 5 7"/>
-                                            <path d="M12 3v12"/>
+                                            fill="none" stroke="{{ $errors->has('image') ? '#ff4d4f' : '#3396D3' }}"
+                                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5" />
+                                            <path d="M7 10.5l5-7 5 7" />
+                                            <path d="M12 3v12" />
                                         </svg>
                                         <div class="native-text">Klik tombol pilih atau seret file ke sini</div>
                                         <div class="native-sub">Maks 4MB — format: jpg, png, gif</div>
                                         <button type="button" id="native-btn"
-                                                class="native-btn @error('image') btn-false  @enderror">Pilih Gambar
+                                            class="native-btn @error('image') btn-false  @enderror">Pilih Gambar
                                         </button>
                                     </div>
 
                                     <input type="file" id="native-image" name="image" accept="image/*"
-                                           class="native-input">
+                                        class="native-input">
 
                                     <div id="native-preview-wrapper" class="native-preview-wrapper" aria-hidden="true">
-                                        <img id="native-preview" class="native-preview" alt="Preview gambar"/>
+                                        <img id="native-preview" class="native-preview" alt="Preview gambar" />
                                         <button type="button" id="native-remove" class="native-remove"
-                                                title="Hapus gambar">Hapus
+                                            title="Hapus gambar">Hapus
                                         </button>
                                     </div>
                                 </div>
                             </div>
                             @error('image')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
+                                <div class="invalid-feedback d-block">
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3">
                         <a href="{{ route('fasilitas.index') }}"
-                           class="btn btn-danger font-weight-semibold shadow-sm btn-hover-rise">
+                            class="btn btn-danger font-weight-semibold shadow-sm btn-hover-rise">
                             Batal
                         </a>
                         <button type="submit" class="btn btn-primary font-weight-semibold shadow-sm btn-hover-rise"
-                                style="background-color: #3396D3; border-color: #3396D3;">
+                            style="background-color: #3396D3; border-color: #3396D3;">
                             Simpan
                         </button>
                     </div>
@@ -115,7 +156,7 @@
             border: 2px dashed #d4d7db;
             border-radius: 10px;
             background: #fafafa;
-            min-height: 340px;
+            min-height: 530px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -244,7 +285,7 @@
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const dropzone = document.getElementById('native-dropzone');
             const fileInput = document.getElementById('native-image');
             const previewWrapper = document.getElementById('native-preview-wrapper');
@@ -280,7 +321,7 @@
                 }
 
                 const reader = new FileReader();
-                reader.onload = function (ev) {
+                reader.onload = function(ev) {
                     previewImg.src = ev.target.result;
                     placeholder.style.display = 'none';
                     previewWrapper.style.display = 'flex';
@@ -289,13 +330,13 @@
                 reader.readAsDataURL(file);
             }
 
-            fileInput.addEventListener('change', function (e) {
+            fileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 handleFile(file);
             });
 
             ['dragenter', 'dragover'].forEach(evt => {
-                dropzone.addEventListener(evt, function (e) {
+                dropzone.addEventListener(evt, function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     dropzone.classList.add('dragover');
@@ -303,14 +344,14 @@
             });
 
             ['dragleave', 'drop'].forEach(evt => {
-                dropzone.addEventListener(evt, function (e) {
+                dropzone.addEventListener(evt, function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     dropzone.classList.remove('dragover');
                 });
             });
 
-            dropzone.addEventListener('drop', function (e) {
+            dropzone.addEventListener('drop', function(e) {
                 const dt = e.dataTransfer;
                 if (!dt) return;
                 const file = dt.files[0];
@@ -320,7 +361,7 @@
                 }
             });
 
-            removeBtn.addEventListener('click', function () {
+            removeBtn.addEventListener('click', function() {
                 fileInput.value = '';
                 resetPreview();
             });
@@ -332,7 +373,7 @@
                 placeholder.style.display = 'block';
             }
 
-            dropzone.addEventListener('keydown', function (e) {
+            dropzone.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     fileInput.click();
@@ -342,8 +383,8 @@
     </script>
 @endsection
 @push('styles')
-    <link rel="stylesheet" href="{{asset('assets/bootstrap-daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{asset('assets/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 @endpush
