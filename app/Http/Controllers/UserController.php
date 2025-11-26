@@ -13,13 +13,17 @@ class userController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search')) {
-            $user = User::where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%')
-                ->paginate(5);
-        } else {
-            $user = User::paginate(5);
+        $query = User::orderBy('created_at', 'desc');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
         }
+        $user = $query->paginate(5)->appends($request->query());
         return view('User.index', compact('user'));
     }
 

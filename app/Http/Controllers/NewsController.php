@@ -15,35 +15,24 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $status = $request->query('status');
-        $search = $request->query('search');
+        $query = News::query();
+        $statusMap = [
+            'published' => 1,
+            'draft' => 2
+        ];
 
-        switch ($status) {
-            case 'published':
-                $news = News::where('status', 1)->paginate(5);
-                if ($search) {
-                    $news = News::where('status', 1)
-                        ->where('title', 'like', '%' . $search . '%')
-                        ->paginate(5);
-                }
-                return view('News.index', compact('news'));
-            case 'draft':
-                $news = News::where('status', 2)->paginate(5);
-                if ($search) {
-                    $news = News::where('status', 2)
-                        ->where('title', 'like', '%' . $search . '%')
-                        ->paginate(5);
-                }
-                return view('News.index', compact('news'));
-            default:
-                if($search) {
-                    $news = News::where('title', 'like', '%' . $search . '%')->paginate(5);
-                    return view('News.index', compact('news'));
-                }
-                break;
+        if ($request->has('status') && isset($statusMap[$request->status])) {
+
+            $statusId = $statusMap[$request->status];
+            $query->where('status', $statusId);
         }
 
-        $news = News::paginate(5);
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        $news = $query->paginate(5)->appends($request->query());
+
         return view('News.index', compact('news'));
     }
 
@@ -140,7 +129,6 @@ class NewsController extends Controller
         ]);
 
         return redirect()->route('berita.index')->with('warning', 'Berita disimpan sebagai draft.');
-
     }
 
     public function updateDraft(Request $request, News $beritum)

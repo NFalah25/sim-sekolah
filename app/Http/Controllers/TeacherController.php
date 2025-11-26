@@ -16,18 +16,21 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search;
 
-        if($search){
-            $teachers = Teacher::where('name', 'like', '%'.$search.'%')
-                        ->orWhere('position', 'like', '%'.$search.'%')
-                        ->orWhere('email', 'like', '%'.$search.'%')
-                        ->paginate(10);
-            return view('Teacher.index', compact('teachers', 'search'));
-        } else {
-            $teachers = Teacher::paginate(10);
-            return view('Teacher.index', compact('teachers'));
+        $query = Teacher::orderBy('created_at', 'desc');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('position', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
         }
+
+        $teachers = $query->paginate(10)->appends($request->query());
+        return view('Teacher.index', compact('teachers'));
     }
 
     /**

@@ -15,18 +15,20 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search')) {
-            $events = Event::where('title', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%')
-                ->orWhere('location', 'like', '%' . $request->search . '%')
-                ->orderBy('start_date', 'desc')
-                ->paginate(10)
-                ->withQueryString();
-            return view('Event.index', compact('events'));
-        } else {
-            $events = Event::orderBy('start_date', 'desc')->paginate(10);
-            return view('Event.index', compact('events'));
+        $query = Event::orderBy('date', 'desc');
+
+        if( $request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('location', 'like', '%' . $search . '%');
+            });
         }
+
+        $events = $query->paginate(10)->appends($request->query());
+        return view('Event.index', compact('events'));
     }
 
     /**
@@ -45,26 +47,21 @@ class EventController extends Controller
         $validated = $request->validated();
 
 
-        $startDateTime = Carbon::createFromFormat('Y-m-d H:i', trim(explode(' - ', $validated['date_range'])[0]) . ' ' . $validated['start_time']);
-        $endDateTime = Carbon::createFromFormat('Y-m-d H:i', trim(explode(' - ', $validated['date_range'])[1]) . ' ' . $validated['end_time']);
-
         $insert = Event::create([
             'title' => $validated['name'],
-            'description' => $validated['description'],
+            'description' => $validated['description'] ?? null,
             'location' => $validated['lokasi'],
-            'start_date' => $startDateTime,
-            'end_date' => $endDateTime,
-            'category' => $validated['category'],
-            'color' => $validated['color'],
+            'date' => $validated['date'],
+            'start_time' => $validated['start_time'],
+            'end_time' => $validated['end_time'],
         ]);
 
         if (!$insert) {
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menambahkan acara');
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menambahkan agenda');
         }
 
 
-        return redirect()->route('acara.index')->with('success', 'Acara berhasil ditambahkan');
-
+        return redirect()->route('acara.index')->with('success', 'Agenda berhasil ditambahkan');
     }
 
     /**
@@ -91,18 +88,17 @@ class EventController extends Controller
         $validate = $request->validated();
         $updateAcara = $acara->update([
             'title' => $validate['name'],
-            'description' => $validate['description'],
+            'description' => $validate['description'] ?? null,
             'location' => $validate['lokasi'],
-            'start_date' => Carbon::createFromFormat('Y-m-d H:i', trim(explode(' - ', $validate['date_range'])[0]) . ' ' . $validate['start_time']),
-            'end_date' => Carbon::createFromFormat('Y-m-d H:i', trim(explode(' - ', $validate['date_range'])[1]) . ' ' . $validate['end_time']),
-            'category' => $validate['category'],
-            'color' => $validate['color'],
+            'date' => $validate['date'],
+            'start_time' => $validate['start_time'],
+            'end_time' => $validate['end_time'],
         ]);
 
         if (!$updateAcara) {
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui acara');
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui agenda');
         } else {
-            return redirect()->route('acara.index')->with('success', 'Acara berhasil diperbarui');
+            return redirect()->route('acara.index')->with('success', 'Agenda berhasil diperbarui');
         }
 
     }
@@ -114,9 +110,9 @@ class EventController extends Controller
     {
         $delete = $acara->delete();
         if (!$delete) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus acara');
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus agenda');
         } else {
-            return redirect()->route('acara.index')->with('success', 'Acara berhasil dihapus');
+            return redirect()->route('acara.index')->with('success', 'Agenda berhasil dihapus');
         }
     }
 }

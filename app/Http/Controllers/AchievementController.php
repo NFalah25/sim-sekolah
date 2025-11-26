@@ -13,13 +13,22 @@ class AchievementController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search')) {
-            $achievements = Achievement::where('title', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%')
-                ->paginate(5);
-        } else {
-            $achievements = Achievement::paginate(5);
+        $query = Achievement::orderBy('created_at', 'desc');
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
         }
+        // if ($request->has('search')) {
+        //     $achievements = Achievement::where('title', 'like', '%' . $request->search . '%')
+        //         ->orWhere('description', 'like', '%' . $request->search . '%')
+        //         ->paginate(5);
+        // } else {
+        //     $achievements = Achievement::paginate(5);
+        // }
         return view('Achievement.index', compact('achievements'));
     }
 

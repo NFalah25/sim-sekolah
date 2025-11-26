@@ -11,10 +11,21 @@ class FacilityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = Facility::orderBy('created_at', 'desc');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
         $pageTitle = 'Fasilitas Sekolah';
-        $facilities = Facility::paginate(10);
+        $facilities = $query->paginate(10)->appends($request->query());
         return view('Facility.index', compact('pageTitle', 'facilities'));
     }
 

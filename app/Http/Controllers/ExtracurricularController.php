@@ -13,15 +13,19 @@ class ExtracurricularController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->has('search')){
-            $ekstra = Extracurricular::where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%')
-                ->paginate(5);
-            return view('Extracurricular.index', compact('ekstra'));
-        } else {
-            $ekstra = Extracurricular::paginate(5);
-            return view('Extracurricular.index', compact('ekstra'));
+
+        $query = Extracurricular::orderBy('created_at', 'desc');
+
+        if( $request->filled('search')){
+            $search = $request->search;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
         }
+        $ekstra = $query->paginate(5)->appends($request->query());
+        return view('Extracurricular.index', compact('ekstra'));
     }
 
     /**
