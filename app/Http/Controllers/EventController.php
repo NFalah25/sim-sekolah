@@ -53,7 +53,7 @@ class EventController extends Controller
             'location' => $validated['lokasi'],
             'date' => $validated['date'],
             'start_time' => $validated['start_time'],
-            'end_time' => $validated['end_time'],
+            'end_time' => $validated['end_time'] ?? null,
         ]);
 
         if (!$insert) {
@@ -92,7 +92,7 @@ class EventController extends Controller
             'location' => $validate['lokasi'],
             'date' => $validate['date'],
             'start_time' => $validate['start_time'],
-            'end_time' => $validate['end_time'],
+            'end_time' => $validate['end_time'] ?? null,
         ]);
 
         if (!$updateAcara) {

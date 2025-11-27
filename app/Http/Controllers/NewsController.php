@@ -50,6 +50,7 @@ class NewsController extends Controller
     public function store(StoreNewsRequest $request)
     {
         $data = $request->validated();
+        // dd($data);
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images/news', 'public');
@@ -62,7 +63,7 @@ class NewsController extends Controller
             'description' => $data['description'],
             'content' => $data['content'],
             'status' => 1,
-            'image' => $data['image'],
+            'image' => $data['image'] ?? null,
         ]);
 
         return redirect()->route('berita.index')->with('success', 'News created successfully.');
@@ -90,7 +91,29 @@ class NewsController extends Controller
      */
     public function update(UpdateNewsRequest $request, News $beritum)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            $oldImage = $beritum->image;
+            if ($oldImage && Storage::disk('public')->exists($oldImage)) {
+                Storage::disk('public')->delete($oldImage);
+            }
+
+            // Simpan gambar baru
+            $imagePath = $request->file('image')->store('images/news', 'public');
+            $data['image'] = $imagePath;
+        }
+
+        $beritum->update([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'content' => $data['content'],
+            'status' => 1,
+            'image' => $data['image'] ?? $beritum->image,
+        ]);
+
+        return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui.');
     }
 
     /**

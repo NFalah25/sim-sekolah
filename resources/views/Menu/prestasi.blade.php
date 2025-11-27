@@ -1,6 +1,15 @@
 @extends('Layout.app')
 
 @section('content')
+    <div class="bg-white border-b mt-4 border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <p class="text-sm text-gray-500">
+                <a href="{{ route('home') }}" class="hover:text-primary">Beranda</a>
+                <span class="mx-2 text-secondary">/</span>
+                <span class="font-semibold text-gray-800">Prestasi</span>
+            </p>
+        </div>
+    </div>
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
 
         <!-- Header -->
@@ -43,6 +52,8 @@
                         </div>
                         <div class="hidden modal-data-full-img">
                             {{ asset('storage/' . $data->image) }}</div>
+                        <div class="hidden modal-data-level">{{ $data->level }}</div>
+                        <div class="hidden modal-data-type">{{ $data->type }}</div>
                     </div>
 
                     <div class="p-5 flex flex-col flex-grow">
@@ -61,7 +72,9 @@
                                 class="text-xs text-gray-500 font-medium modal-data-date">{{ \Carbon\Carbon::parse($data->date)->isoFormat('D MMMM YYYY') }}</span>
                         </div>
                     </div>
+
                 </article>
+
             @empty
                 <p class="text-center text-gray-500 col-span-full">Tidak ada prestasi yang ditemukan.</p>
             @endforelse
@@ -177,21 +190,25 @@
                         <p id="modal-desc" class="text-slate-600 leading-relaxed text-lg"></p>
                     </div>
 
-                    <!-- Share Section -->
-                    <div class="mt-8 pt-6 border-t border-gray-100 flex items-center gap-4">
-                        <span class="text-sm text-slate-500 font-medium">Bagikan prestasi ini:</span>
-                        <div class="flex gap-2">
-                            <button
-                                class="w-10 h-10 rounded-full bg-third flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
-                                <i data-lucide="facebook" class="w-4 h-4"></i>
-                            </button>
-                            <button
-                                class="w-10 h-10 rounded-full bg-third flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
-                                <i data-lucide="twitter" class="w-4 h-4"></i>
-                            </button>
-                            <button
-                                class="w-10 h-10 rounded-full bg-third flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors">
-                                <i data-lucide="link" class="w-4 h-4"></i>
+                    <div class="mt-auto pt-6 border-t border-gray-100">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <!-- Detail Badges -->
+                            <div class="flex flex-wrap gap-2">
+                                <div
+                                    class="flex items-center px-3 py-1.5 bg-blue-50 text-primary rounded-lg text-sm font-medium border border-blue-100">
+                                    <i data-lucide="award" class="w-4 h-4 mr-2"></i>
+                                    <span id="modal-level"></span>
+                                </div>
+                                <div
+                                    class="flex items-center px-3 py-1.5 bg-amber-50 text-amber-700 rounded-lg text-sm font-medium border border-amber-100">
+                                    <i data-lucide="tag" class="w-4 h-4 mr-2"></i>
+                                    <span id="modal-type" style="text-transform: capitalize"></span>
+                                </div>
+                            </div>
+
+                            <button onclick="closeModal()"
+                                class="w-full sm:w-auto px-6 py-2 bg-gray-100 hover:bg-gray-200 text-slate-600 font-medium rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                                <span>Tutup</span>
                             </button>
                         </div>
                     </div>
@@ -296,10 +313,6 @@
     <script>
         lucide.createIcons();
 
-        // Mobile Menu Logic
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
         $('#search').on('keydown', function(e) {
             if (e.key === 'Enter') {
                 const query = e.target.value.trim();
@@ -311,11 +324,6 @@
             }
         });
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        // --- Optimized Smooth Expansion Script for Achievements ---
         const cards = document.querySelectorAll('.achievement-card');
 
         cards.forEach(card => {
@@ -362,17 +370,23 @@
         const modalTitle = document.getElementById('modal-title');
         const modalDate = document.getElementById('modal-date');
         const modalDesc = document.getElementById('modal-desc');
+        const modalLevel = document.getElementById('modal-level');
+        const modalType = document.getElementById('modal-type');
 
         function openModal(cardElement) {
             const title = cardElement.querySelector('.modal-data-title').innerText;
             const date = cardElement.querySelector('.modal-data-date').innerText;
             const desc = cardElement.querySelector('.modal-data-desc').innerHTML;
             const fullImgSrc = cardElement.querySelector('.modal-data-full-img').innerText;
+            const level = cardElement.querySelector('.modal-data-level').innerText;
+            const type = cardElement.querySelector('.modal-data-type').innerText;
 
             modalTitle.innerText = title;
             modalDate.innerText = date;
             modalDesc.innerHTML = desc;
             modalImg.src = fullImgSrc;
+            modalLevel.innerText = level;
+            modalType.innerText = type;
 
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';

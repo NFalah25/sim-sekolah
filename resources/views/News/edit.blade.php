@@ -12,7 +12,7 @@
                 <h4>Isi detail berita yang ingin ditambahkan</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('berita.store', $berita->id) }}" method="POST" enctype="multipart/form-data" id="form-berita">
+                <form action="{{ route('berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data" id="form-berita">
                     @csrf
                     @method('PUT')
                     <div class="form-row">
@@ -298,7 +298,7 @@
 
             function draft(){
                 const formBerita = document.getElementById('form-berita');
-                formBerita.action = "{{ route('berita.updateDraft') }}";
+                formBerita.action = "{{ route('berita.updateDraft', $berita->id) }}";
                 $('#content').summernote('code', $('#content').summernote('code'));
                 formBerita.submit();
             }

@@ -11,7 +11,7 @@ class UpdateNewsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class UpdateNewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'content' => 'required|string',
+            'status' => 'required|integer|in:0,1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'title' => 'Judul Berita',
+            'description' => 'Deskripsi Berita',
+            'content' => 'Konten Berita',
+            'image' => 'Gambar Berita',
+            'status' => 'Status Berita',
         ];
     }
 }

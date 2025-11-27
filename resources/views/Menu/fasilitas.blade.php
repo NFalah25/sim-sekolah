@@ -3,7 +3,7 @@
     <div class="bg-white border-b mt-4 border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <p class="text-sm text-gray-500">
-                <a href="#" class="hover:text-primary">Beranda</a>
+                <a href="{{route('home')}}" class="hover:text-primary">Beranda</a>
                 <span class="mx-2 text-secondary">/</span>
                 <span class="font-semibold text-gray-800">Fasilitas</span>
             </p>

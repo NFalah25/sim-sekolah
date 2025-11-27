@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ExtracurricularController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\NewsController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\HeroController;
+use App\Http\Controllers\StructureController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,6 +28,7 @@ Route::get('/berita', [HomeController::class, 'berita'])->name('landing.berita')
 Route::get('/ekstrakurikuler', [HomeController::class, 'ekstrakurikuler'])->name('landing.ekstrakurikuler');
 Route::get('/prestasi', [HomeController::class, 'prestasi'])->name('landing.prestasi');
 Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('landing.pengumuman');
+Route::get('/struktur', [HomeController::class, 'struktur'])->name('landing.struktur');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -33,12 +37,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('fasilitas', FacilityController::class);
         Route::resource('berita', NewsController::class);
         Route::post('berita/draft', [NewsController::class, 'storeDraft'])->name('berita.storeDraft');
-        Route::put('berita/draft', [NewsController::class, 'updateDraft'])->name('berita.updateDraft');
+        Route::put('berita/draft/{beritum}', [NewsController::class, 'updateDraft'])->name('berita.updateDraft');
         Route::resource('prestasi', AchievementController::class);
         Route::resource('ekstrakurikuler', ExtracurricularController::class);
         Route::resource('guru', TeacherController::class);
         Route::resource('user', UserController::class);
         Route::resource('acara', EventController::class);
+        Route::resource('pengumuman', AnnouncementController::class);
+        Route::resource('struktur', StructureController::class);
+        Route::resource('hero', HeroController::class);
     });
 
     Route::get('/stisla', function () {

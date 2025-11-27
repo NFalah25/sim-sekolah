@@ -1,5 +1,5 @@
 @extends('app.Template')
-@section('title', 'Fasilitas Sekolah')
+@section('title', 'Berita Sekolah')
 
 @section('content')
     <section class="section">

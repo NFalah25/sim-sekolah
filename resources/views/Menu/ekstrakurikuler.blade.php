@@ -4,14 +4,13 @@
     <div class="bg-white border-b mt-4 border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <p class="text-sm text-gray-500">
-                <a href="#" class="hover:text-primary">Beranda</a>
+                <a href="{{route('home')}}" class="hover:text-primary">Beranda</a>
                 <span class="mx-2 text-secondary">/</span>
                 <span class="font-semibold text-gray-800">Ekstrakurikuler</span>
             </p>
         </div>
     </div>
     <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-4">
-        <!-- Breadcrumb & Header -->
         <div class="text-center mb-12">
             <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
                 Ekstrakurikuler <span class="text-primary border-b-4 border-blue-100 pb-1">Sekolah</span>
@@ -21,7 +20,6 @@
             </p>
         </div>
 
-        <!-- Grid Ekstrakurikuler -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
 
             @forelse ($ekstrakurikuler as $data)
@@ -37,7 +35,7 @@
                             class="w-full h-full object-cover">
 
                         <div
-                            class="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6">
+                            class="absolute inset-0 bg-gradient-to-t from-primary-dark/90 via-primary-dark/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6">
                             <p
                                 class="text-white text-center font-medium leading-relaxed translate-y-4 hover:translate-y-0 transition-transform duration-300">
                                 {{ $data->description }}
@@ -96,12 +94,5 @@
     <script>
         lucide.createIcons();
 
-        // Mobile Menu Logic
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
     </script>
 @endpush

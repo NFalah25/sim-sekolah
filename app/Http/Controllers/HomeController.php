@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Achievement;
+use App\Models\Announcement;
 use App\Models\Event;
 use App\Models\Extracurricular;
 use App\Models\Facility;
+use App\Models\Hero;
 use App\Models\News;
+use App\Models\Structure;
 use App\Models\Teacher;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,16 +21,15 @@ class HomeController extends Controller
     public function index()
     {
         $news = Cache::remember('news', 600, function () {
-            return News::latest()->take(6)->get();
+            $news = News::where('status', 1)->latest()->take(6)->get();
+            return $news;
         });
         $facilities = Cache::remember('facilities', 600, function () {
             return Facility::latest()->take(6)->get();
         });
         $achievements = Cache::remember('achievements', 600, function () {
-            return Achievement::latest()->take(6)->get();
-        });
-        $events = Cache::remember('events', 600, function () {
-            return Event::where('date', '>=', Carbon::now())->orderBy('date', 'asc')->take(6)->get();
+            $achievements = Achievement::orderBy('date', 'desc')->take(6)->get();
+            return $achievements;
         });
 
         $teachers = Cache::remember('teachers', 1, function () {
@@ -72,8 +74,38 @@ class HomeController extends Controller
             return $dataTeachers;
         });
 
+        $announcements = Announcement::select('title', 'description', 'date_published')->where('is_pinned', true)->orderBy('date_published', 'desc')->get();
+        $pastEvent = Event::select('title', 'date', 'start_time', 'end_time')
+            ->where('date', '<', Carbon::today()) // Tanggal sebelum hari ini
+            ->orderBy('date', 'desc')             // Urutkan dari yang terbaru (paling dekat dengan hari ini)
+            ->take(1)
+            ->get(); // Hasilnya adalah Laravel Collection dengan maksimal 1 item
 
-        return view('Homepage.index', compact('news', 'facilities', 'achievements', 'events', 'teachers'));
+        $pastEvents = Event::select('title', 'date', 'start_time', 'end_time')
+            ->where('date', '<', Carbon::today()) // Tanggal sebelum hari ini
+            ->orderBy('date', 'desc')
+            ->take(1)
+            ->get();
+
+        // --- 2. Hitung Kekurangan Slot ---
+        // Jika pastEvents punya 1 data, kita butuh 3 data masa depan (4 - 1 = 3)
+        // Jika pastEvents punya 0 data, kita butuh 4 data masa depan (4 - 0 = 4)
+        $neededFutureCount = 4 - $pastEvents->count();
+
+        // --- 3. Query untuk Data Masa Depan (Jumlah Dinamis) ---
+        $futureEvents = Event::select('title', 'date', 'start_time', 'end_time')
+            ->where('date', '>=', Carbon::today()) // Tanggal hari ini atau setelahnya
+            ->orderBy('date', 'asc')
+            ->take($neededFutureCount) // Ambil sesuai kebutuhan yang sudah dihitung
+            ->get();
+
+        // --- 4. Gabungkan dan Urutkan ---
+        // Gunakan concat() agar tidak ada penimpaan (overwriting) indeks
+        $events = $pastEvents->concat($futureEvents)->sortBy('date');
+
+        $heroes = Hero::orderBy('created_at', 'asc')->get();
+
+        return view('Homepage.index', compact('news', 'facilities', 'achievements', 'events', 'teachers', 'announcements', 'heroes'));
     }
 
     public function visiMisi()
@@ -120,7 +152,7 @@ class HomeController extends Controller
             });
         }
 
-        $berita = $query->paginate(8)->appends($request->query());
+        $berita = $query->where('status', 1)->paginate(8)->appends($request->query());
 
         return view('Menu.berita', compact('berita'));
     }
@@ -160,8 +192,64 @@ class HomeController extends Controller
         return view('Menu.prestasi', compact('prestasi'));
     }
 
-    public function pengumuman()
+    public function pengumuman(Request $request)
     {
-        return view('Menu.pengumuman');
+        $search = $request->query('q');
+        $type = $request->query('type');
+        $category = $request->query('category');
+
+        // Query Pengumuman
+        $queryPengumuman = Announcement::query();
+
+        if ($search) {
+            $queryPengumuman->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($category) {
+            $catArray = explode(',', $category);
+            $queryPengumuman->whereIn('category', $catArray);
+        }
+
+        $queryPengumuman->orderBy('is_pinned', 'desc')
+            ->orderBy('date_published', 'desc');
+
+        $announcements = ($type !== 'agenda') ? $queryPengumuman->paginate(3, ['*'], 'page_announcement')->withQueryString() : collect([]);
+
+        // Query Agenda
+        $queryAgenda = Event::query();
+
+        if ($search) {
+            $queryAgenda->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        $queryAgenda->orderBy('date', 'asc');
+
+        $events = ($type !== 'pengumuman') ? $queryAgenda->paginate(3, ['*'], 'page_agenda')->withQueryString() : collect([]);
+
+
+        return view('Menu.pengumuman', compact('announcements', 'events'));
+    }
+
+    public function struktur()
+    {
+        $struktur = Structure::select('id', 'name', 'description', 'images', 'icon')->get();
+
+        $jsonStruktur = $struktur->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'title' => $item->name,
+                'description' => $item->description,
+                'images' => $item->images ? asset('storage/' . $item->images) : null,
+                'icon' => $item->icon,
+            ];
+        });
+
+        return view('Menu.struktur', compact('jsonStruktur'));
     }
 }

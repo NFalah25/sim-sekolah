@@ -1,15 +1,15 @@
 @extends('app.Template')
-@section('title', 'Tambah Acara/kegiatan')
+@section('title', 'Tambah agenda')
 
 @section('content')
     <div class="section-header">
-        <h2 class="h4 font-weight-bold mb-1">Tambah Kegiatan</h2>
+        <h2 class="h4 font-weight-bold mb-1">Tambah Agenda</h2>
     </div>
 
     <div class="section-body">
         <div class="card">
             <div class="card-header">
-                <h4 class="font-weight-semibold">Form Tambah Kegiatan</h4>
+                <h4 class="font-weight-semibold">Form Tambah Agenda</h4>
             </div>
             <div class="card-body">
                 <form action="{{ route('acara.store') }}" method="POST">
@@ -17,7 +17,7 @@
                     <div class="form-row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name" class="font-weight-semibold">Nama Acara</label>
+                                <label for="name" class="font-weight-semibold">Nama agenda</label>
                                 <input type="text" id="name" name="name"
                                        placeholder="Contoh: Pendaftaran Masuk SD" value="{{old('name')}}"
                                        class="form-control rounded-lg @error('name') is-invalid @enderror">
@@ -29,9 +29,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="description" class="font-weight-semibold">Deskripsi Kegiatan</label>
+                                <label for="description" class="font-weight-semibold">Deskripsi Agenda</label>
                                 <textarea id="description" name="description"
-                                          placeholder="Masukkan deskripsi kegiatan"
+                                          placeholder="Masukkan deskripsi agenda"
                                           class="form-control rounded-lg @error('description') is-invalid @enderror"
                                           rows="3" style="height: auto">{{ old('description') }}</textarea>
 
@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label for="lokasi" class="font-weight-semibold">Lokasi</label>
                                 <input id="lokasi" name="lokasi"
-                                       placeholder="Masukkan lokasi kegiatan" value="{{old('lokasi')}}"
+                                       placeholder="Masukkan lokasi agenda" value="{{old('lokasi')}}"
                                        class="form-control rounded-lg @error('lokasi') is-invalid @enderror">
                                 @error('lokasi')
                                 <div class="invalid-feedback">
@@ -57,19 +57,11 @@
 
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
-                                <label for="date_range" class="font-weight-semibold">Tanggal Kegiatan</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-calendar"></i>
-                                        </div>
-                                    </div>
-                                    <input type="text" class="form-control daterange-cus @error('date_range') is-invalid @enderror" id="date_range"
-                                           name="date_range"
-                                           value="{{ old('date_range') }}"
-                                           placeholder="Pilih rentang tanggal kegiatan">
-                                </div>
-                                @error('date_range')
+                                <label for="date" class="font-weight-semibold">Tanggal Agenda</label>
+                                <input type="date" id="date" name="date"
+                                       value="{{ old('date') }}"
+                                       class="form-control rounded-lg daterange-cus @error('date') is-invalid @enderror">
+                                @error('date')
                                 <div class="invalid-feedback d-block">
                                     {{ $message }}
                                 </div>
@@ -105,43 +97,9 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="block font-semibold">Kategori</label>
-                                <select name="category" id="category" class="form-control @error('category') is-invalid @enderror">
-                                    <option value="">Pilih Kategori</option>
-                                    <option value="Lomba">Lomba</option>
-                                    <option value="Praktek Sains">Praktek Sains</option>
-                                    <option value="Webinar">Webinar</option>
-                                </select>
-                                @error('category')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="block font-semibold">Warna Penanda</label>
-                                <select name="color" id="color" class="form-control @error('color') is-invalid @enderror">
-                                    <option value="">Pilih Warna</option>
-                                    <option value="red">Merah</option>
-                                    <option value="blue">Biru</option>
-                                    <option value="green">Hijau</option>
-                                    <option value="purple">Ungu</option>
-                                </select>
-                                @error('color')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center pt-3">
-                        <a href="{{ route('user.index') }}"
+                        <a href="{{ route('acara.index') }}"
                            class="btn btn-danger font-weight-semibold shadow-sm btn-hover-rise">
                             Batal
                         </a>
@@ -167,11 +125,11 @@
     <script src="{{asset('assets/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     {{--    <script src="{{asset('assets/js/page/forms-advanced-forms.js')}}"></script>--}}
     <script>
-        $('.daterange-cus').daterangepicker({
-            locale: {format: 'YYYY-MM-DD'},
-            drops: 'down',
-            opens: 'right'
-        });
+        // $('.daterange-cus').daterangepicker({
+        //     locale: {format: 'YYYY-MM-DD'},
+        //     drops: 'down',
+        //     opens: 'right'
+        // });
 
         const color = $('#color');
 

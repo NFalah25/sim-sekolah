@@ -18,6 +18,10 @@
     "Noto Color Emoji";
     --color-primary: #3396D3;
     --color-primary-dark: #2a78a9;
+    --color-primary-light: #E6F4FA;
+    --color-surface: #F8FAFC;
+    --color-darkbox: #1e293b;
+    --color-darkbg: #0f172a;
     --color-secondary: #EBCB90;
     --color-third: #FFF0CE;
     --color-accent: #fbbf24;

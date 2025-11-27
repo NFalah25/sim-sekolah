@@ -41,7 +41,7 @@
                             Admin</div>
                         <div class="flex items-center text-slate-400 text-xs md:text-sm font-medium">
                             <i data-lucide="calendar" class="w-4 h-4 mr-1.5"></i>
-                            <span>12 November 2025</span>
+                            <span>{{ \Carbon\Carbon::parse($data->date)->locale('id')->IsoFormat('D MMMM YYYY') }}</span>
                         </div>
                     </div>
                 </div>

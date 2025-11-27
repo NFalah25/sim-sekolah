@@ -136,6 +136,7 @@
                         </div>
                     </div>
 
+
                     <div class="d-flex justify-content-between align-items-center pt-3">
                         <a href="{{ route('fasilitas.index') }}"
                             class="btn btn-danger font-weight-semibold shadow-sm btn-hover-rise">

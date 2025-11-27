@@ -22,13 +22,7 @@ class AchievementController extends Controller
                     ->orWhere('description', 'like', '%' . $search . '%');
             });
         }
-        // if ($request->has('search')) {
-        //     $achievements = Achievement::where('title', 'like', '%' . $request->search . '%')
-        //         ->orWhere('description', 'like', '%' . $request->search . '%')
-        //         ->paginate(5);
-        // } else {
-        //     $achievements = Achievement::paginate(5);
-        // }
+        $achievements = $query->paginate(5)->appends($request->query());
         return view('Achievement.index', compact('achievements'));
     }
 
@@ -51,7 +45,7 @@ class AchievementController extends Controller
             'date' => 'required|date',
             'type' => 'required|string',
             'level' => 'required|string',
-            'image' => 'nullable|image|max:4096', // Maksimal 4MB
+            'image' => 'required|image|max:4096', // Maksimal 4MB
         ], [], [
             'title' => 'Judul Prestasi',
             'description' => 'Deskripsi',
@@ -75,7 +69,7 @@ class AchievementController extends Controller
             'image' => $validate['image'] ?? null,
         ]);
 
-        return redirect()->route('achievements.index')->with('success', 'Prestasi berhasil ditambahkan.');
+        return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil ditambahkan.');
     }
 
     /**
@@ -105,7 +99,7 @@ class AchievementController extends Controller
             'date' => 'required|date',
             'type' => 'required|string',
             'level' => 'required|string',
-            'image' => 'nullable|image|max:4096', // Maksimal 4MB
+            'image' => 'required|image|max:4096', // Maksimal 4MB
         ], [], [
             'title' => 'Judul Prestasi',
             'description' => 'Deskripsi',
@@ -133,7 +127,7 @@ class AchievementController extends Controller
             'image' => $validate['image'] ?? $prestasi->image,
         ]);
 
-        return redirect()->route('achievements.index')->with('success', 'Prestasi berhasil diperbarui.');
+        return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil diperbarui.');
 
     }
 
@@ -147,6 +141,6 @@ class AchievementController extends Controller
             Storage::disk('public')->delete($deleteImage);
         }
         $achievement->delete();
-        return redirect()->route('achievements.index')->with('success', 'Prestasi berhasil di hapus');
+        return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil di hapus');
     }
 }

@@ -4,7 +4,7 @@
     <div class="bg-white border-b mt-4 border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <p class="text-sm text-gray-500">
-                <a href="#" class="hover:text-primary">Beranda</a>
+                <a href="{{route('home')}}" class="hover:text-primary">Beranda</a>
                 <span class="mx-2 text-secondary">/</span>
                 <span class="font-semibold text-gray-800">Berita</span>
             </p>
@@ -21,7 +21,7 @@
 
             <!-- Search -->
             <div class="relative w-full md:w-64">
-                <input type="text" placeholder="Cari berita..."
+                <input type="text" placeholder="Cari berita..." id="search-input"
                     class="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
                 <i data-lucide="search" class="absolute left-3 top-2.5 h-4 w-4 text-gray-400"></i>
             </div>
@@ -152,7 +152,7 @@
             <div class="overflow-y-auto custom-scrollbar flex flex-col">
                 <!-- Image -->
                 <div class="relative h-64 sm:h-80 w-full bg-gray-200 shrink-0">
-                    <img id="modal-image" src="" alt="Detail Berita" class="w-full h-full object-cover">
+                    <img id="modal-image" src="" alt="Detail Berita" class="w-full h-full object-contain">
                 </div>
 
                 <!-- Text Content -->
@@ -202,11 +202,9 @@
         .news-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px -5px rgba(51, 150, 211, 0.15), 0 10px 10px -6px rgba(51, 150, 211, 0.1);
-            /* Shadow Primary tint */
             z-index: 10;
         }
 
-        /* Image Zoom */
         .img-container {
             overflow: hidden;
         }
@@ -219,7 +217,6 @@
             transform: scale(1.08);
         }
 
-        /* Title Animation Styles */
         .news-title-wrapper {
             overflow: hidden;
             transition: height 0.4s ease-out;
@@ -288,15 +285,6 @@
     <script>
         lucide.createIcons();
 
-        // Mobile Menu Logic
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        // --- Optimized Smooth Expansion Script for Cards ---
         const cards = document.querySelectorAll('.news-card');
 
         cards.forEach(card => {
@@ -373,6 +361,17 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
                 closeModal();
+            }
+        });
+
+        $('#search-input').on('keydown', function(e) {
+            if(e.key === 'Enter' || e.keyCode === 13) {
+                const query = $(this).val().trim();
+                if(query) {
+                    window.location.href = "{{ url('/berita') }}" + "?search=" + encodeURIComponent(query);
+                } else {
+                    window.location.href = "{{ url('/berita') }}";
+                }
             }
         });
     </script>

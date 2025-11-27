@@ -15,12 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title');
-            $table->text('description');
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->string('category')->nullable();
-            $table->string('location')->nullable();
-            $table->string('color');
+            $table->text('description')->nullable();
+            $table->date('date');
+            $table->time('start_time');
+            $table->time('end_time')->nullable();
+            $table->string('location');
         });
     }
 
