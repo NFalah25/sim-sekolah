@@ -16,7 +16,7 @@
     <div class="w-24 h-1 bg-third mt-6"></div>
     <div class="flex items-center justify-between mt-2 mb-6 gap-5">
         <h2 class="md:text-2xl text-lg font-bold text-white items-center flex">Guru dan Tenaga Pendidik</h2>
-        <a href="#" class="text-primary font-semibold">SELENGKAPNYA</a>
+        <a href="{{route('landing.guru')}}" class="text-primary font-semibold">SELENGKAPNYA</a>
     </div>
     <div class="relative">
         <button id="prev-btn"

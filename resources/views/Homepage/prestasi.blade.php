@@ -7,7 +7,7 @@
                 <h2 class="md:text-2xl text-lg font-bold text-gray-800 items-center flex">Prestasi</h2>
                 <p class="text-sm">Prestasi Akademik dan non Akademik Siswa</p>
             </div>
-            <a href="#" class="text-primary font-semibold">SELENGKAPNYA</a>
+            <a href="{{route('landing.prestasi')}}" class="text-primary font-semibold">SELENGKAPNYA</a>
         </div>
         <div
             class="flex flex-nowrap overflow-x-auto gap-6 pb-10 px-4 snap-x snap-mandatory no-scrollbar scroll-smooth -mx-4 md:mx-0 md:px-0">

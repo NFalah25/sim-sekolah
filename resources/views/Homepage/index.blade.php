@@ -181,7 +181,7 @@
             <div class="w-24 bg-primary mb-4 h-1"></div>
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 items-center flex">Fasilitas Siswa</h2>
-                <a href="#" class="text-primary font-semibold">SELENGKAPNYA</a>
+                <a href="{{route('landing.fasilitas')}}" class="text-primary font-semibold">SELENGKAPNYA</a>
             </div>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper ">
