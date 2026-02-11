@@ -1,4 +1,4 @@
-@extends('app.template')
+@extends('app.Template')
 @section('title', 'Tambah Berita')
 
 @section('content')
@@ -305,8 +305,16 @@
 
             function draft() {
                 const formBerita = document.getElementById('form-berita');
-                formBerita.action =
-                $('#content').summernote('code', $('#content').summernote('code'));
+                const $summernote = $('.summernote');
+
+                const content = $summernote.summernote('code');
+                if ($summernote.summernote('isEmpty') || content === '<p><br></p>') {
+                    $('#content').val('');
+                } else {
+                    $('#content').val(content);
+                }
+
+                formBerita.action = "{{ route('berita.storeDraft') }}";
                 formBerita.submit();
             }
 

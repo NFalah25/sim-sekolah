@@ -1,4 +1,4 @@
-@extends('app.template')
+@extends('app.Template')
 @section('title', 'Tambah Profil Guru')
 
 @section('content')

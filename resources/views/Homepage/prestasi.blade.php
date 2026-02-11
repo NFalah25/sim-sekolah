@@ -32,7 +32,7 @@
                     <div class="text-center">
                         <h3
                             class="font-bold text-base md:text-lg text-slate-800 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                            Juara 1 Lomba Melukis Tingkat Provinsi
+                            {{ $data->title }}
                         </h3>
                     </div>
                     <div class="flex items-center justify-between">

@@ -41,7 +41,7 @@
                             <path d="M10 13h4" />
                             <path d="M10 17h4" />
                         </svg>
-                        <span class="card-value">10</span>
+                        <span class="card-value">{{$berita}}</span>
                     </div>
                     <div class="mt-3">
                         <p class="card-title">Berita Aktif</p>
@@ -63,7 +63,7 @@
                             <path d="M6 10H4.5a2.5 2.5 0 0 1 0-5H6" />
                             <path d="M12 2v3" />
                         </svg>
-                        <span class="card-value">7</span>
+                        <span class="card-value">{{$agenda}}</span>
                     </div>
                     <div class="mt-3">
                         <p class="card-title">Kegiatan Mendatang</p>
@@ -84,7 +84,7 @@
                             <path d="M22 10s-2 3-2 5a2 2 0 0 1-2 2h-1" />
                             <path d="M2 10s2 3 2 5a2 2 0 0 0 2 2h1" />
                         </svg>
-                        <span class="card-value">12</span>
+                        <span class="card-value">{{$prestasi}}</span>
                     </div>
                     <div class="mt-3">
                         <p class="card-title">Total Prestasi</p>

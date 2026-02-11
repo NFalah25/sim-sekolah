@@ -134,13 +134,13 @@ class AchievementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Achievement $achievement)
+    public function destroy(Achievement $prestasi)
     {
-        $deleteImage = $achievement->image;
+        $deleteImage = $prestasi->image;
         if ($deleteImage && Storage::disk('public')->exists($deleteImage)) {
             Storage::disk('public')->delete($deleteImage);
         }
-        $achievement->delete();
+        $prestasi->delete();
         return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil di hapus');
     }
 }

@@ -12,7 +12,7 @@
     </li>
 
     <li
-        class="nav-item dropdown {{ request()->routeIs('fasilitas.*') || request()->routeIs('berita.*') || request()->routeIs('prestasi.*') || request()->routeIs('ekstrakurikuler.*') || request()->routeIs('struktur.*') ? 'active' : '' }}">
+        class="nav-item dropdown {{ request()->routeIs('fasilitas.*') || request()->routeIs('berita.*') || request()->routeIs('prestasi.*') || request()->routeIs('ekstrakurikuler.*') || request()->routeIs('struktur.*')  || request()->routeIs('hero.*') ? 'active' : ''}}">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
             <span>Informasi Sekolah</span></a>
         <ul class="dropdown-menu">
@@ -30,6 +30,9 @@
             </li>
             <li class="{{ request()->routeIs('struktur.*') ? 'active' : '' }}"><a class="nav-link"
                     href="{{ route('struktur.index') }}">Struktur Organisasi</a>
+            </li>
+            <li class="{{ request()->routeIs('hero.*') ? 'active' : '' }}"><a class="nav-link"
+                    href="{{ route('hero.index') }}">Background Hero</a>
             </li>
         </ul>
     </li>

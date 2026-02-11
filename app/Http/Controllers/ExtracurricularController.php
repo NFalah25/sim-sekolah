@@ -88,28 +88,32 @@ class ExtracurricularController extends Controller
      */
     public function update(Request $request, Extracurricular $ekstrakurikuler)
     {
+        // dd($request->all());
         $validate = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|image|max:4096|mimes:jpeg,png,jpg',
-            'advisor' => 'required|string|max:255',
+            'pembina' => 'required|string|max:255',
         ],[],[
             'name' => 'Nama Ekstrakurikuler',
             'description' => 'Deskripsi',
             'image' => 'Gambar',
-            'advisor' => 'Pembina Ekstrakurikuler',
+            'pembina' => 'Pembina Ekstrakurikuler',
         ]);
 
         if ($request->hasFile('image')) {
+            if($ekstrakurikuler->image && Storage::disk('public')->exists($ekstrakurikuler->image)){
+                Storage::disk('public')->delete($ekstrakurikuler->image);
+            }
+            $validate['image'] =
             $request->file('image')->store('images/extracurricular', 'public');
-            $validate['image'] = $request->image;
         }
 
         $ekstrakurikuler->update([
             'name' => $validate['name'],
             'description' => $validate['description'],
             'image' => $validate['image'] ?? $ekstrakurikuler->image,
-            'advisor' => $validate['advisor'],
+            'advisor' => $validate['pembina'],
         ]);
         return redirect()->route('ekstrakurikuler.index')->with('success', 'Ekstrakurikuler berhasil diupdate.');
     }

@@ -71,7 +71,7 @@
                                     <td>{{ $index + $achievements->firstItem() }}</td>
                                     <td>{{ $data->title }}</td>
                                     <td>{{ $data->type == 'akademik' ? 'Akademik' : 'Non-Akademik' }}</td>
-                                    <td>{{ $data->level }}</td>
+                                    <td style="text-transform: capitalize">{{ $data->level }}</td>
                                     <td>
                                         @if ($data->image)
                                             <a href="{{ asset('storage/' . $data->image) }}" target="_blank"
@@ -89,6 +89,7 @@
                                            class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
+                                        {{$data->id}}
                                         <form action="{{ route('prestasi.destroy', $data->id) }}" method="POST"
                                               class="d-inline"
                                               onsubmit="return confirm('Yakin ingin menghapus prestasi ini?')">

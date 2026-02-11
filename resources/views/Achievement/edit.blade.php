@@ -1,4 +1,4 @@
-@extends('app.template')
+@extends('app.Template')
 @section('title', 'Add Facility')
 
 @section('content')
@@ -45,18 +45,18 @@
                                 <select id="level" name="level"
                                     class="form-control rounded-lg @error('level') is-invalid @enderror">
                                     <option value="" disabled selected>Pilih Tingkat Kejuaraan</option>
-                                    <option value="Sekolah" {{ $prestasi->level == 'Sekolah' ? 'selected' : '' }}>Sekolah
+                                    <option value="Sekolah" {{ $prestasi->level == 'sekolah' ? 'selected' : '' }}>Sekolah
                                     </option>
-                                    <option value="Kecamatan" {{ $prestasi->level == 'Kecamatan' ? 'selected' : '' }}>
+                                    <option value="Kecamatan" {{ $prestasi->level == 'kecamatan' ? 'selected' : '' }}>
                                         Kecamatan
                                     </option>
-                                    <option value="Kabupaten" {{ $prestasi->level == 'Kabupaten' ? 'selected' : '' }}>
+                                    <option value="Kabupaten" {{ $prestasi->level == 'kabupaten' ? 'selected' : '' }}>
                                         Kabupaten
                                     </option>
-                                    <option value="Provinsi" {{ $prestasi->level == 'Provinsi' ? 'selected' : '' }}>
+                                    <option value="Provinsi" {{ $prestasi->level == 'provinsi' ? 'selected' : '' }}>
                                         Provinsi
                                     </option>
-                                    <option value="Nasional" {{ $prestasi->level == 'Nasional' ? 'selected' : '' }}>
+                                    <option value="Nasional" {{ $prestasi->level == 'nasional' ? 'selected' : '' }}>
                                         Nasional
                                     </option>
                                     <option value="Internasional"

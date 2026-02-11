@@ -1,4 +1,4 @@
-@extends('app.template')
+@extends('app.Template')
 @section('title', 'Tambah Berita')
 
 @section('content')
@@ -12,41 +12,43 @@
                 <h4>Isi detail berita yang ingin ditambahkan</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data" id="form-berita">
+                <form action="{{ route('berita.update', $berita->id) }}" method="POST" enctype="multipart/form-data"
+                    id="form-berita">
                     @csrf
                     @method('PUT')
                     <div class="form-row">
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label for="judul" class="font-weight-semibold">Judul Berita</label>
-                                <input type="text" id="judul" name="judul" value="{{$berita->title}}"
-                                       placeholder="Contoh: Pendidikan Karakter"
-                                       class="form-control rounded-lg @error('judul') is-invalid @enderror">
+                                <input type="text" id="judul" name="judul" value="{{ $berita->title }}"
+                                    placeholder="Contoh: Pendidikan Karakter"
+                                    class="form-control rounded-lg @error('judul') is-invalid @enderror">
                                 @error('judul')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="description" class="font-weight-semibold">Deskripsi</label>
                                 <input type="text" id="description" name="description"
-                                       placeholder="Contoh: Pendidikan karakter di SDN Juwetkenongo" value="{{$berita->description}}"
-                                       class="form-control rounded-lg @error('description') is-invalid @enderror">
+                                    placeholder="Contoh: Pendidikan karakter di SDN Juwetkenongo"
+                                    value="{{ $berita->description }}"
+                                    class="form-control rounded-lg @error('description') is-invalid @enderror">
+                                    @error('description')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                             </div>
-                            @error('content')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
                             <div class="form-group">
                                 <label for="content" class="font-weight-semibold">Isi Berita</label>
-                                <textarea class="summernote" name="content" id="content">{{$berita->content}}</textarea>
+                                <textarea class="summernote" name="content" id="content">{{ $berita->content }}</textarea>
                             </div>
                             @error('content')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
 
@@ -57,41 +59,39 @@
 
                                 <!-- START: Native CSS upload box (no bootstrap classes) -->
                                 <div id="native-dropzone" class="native-dropzone @error('image') border-error @enderror"
-                                     tabindex="0"
-                                     data-current-image-url="{{$berita->image ? asset('storage/'. $berita->image) : ''}}">
+                                    tabindex="0"
+                                    data-current-image-url="{{ $berita->image ? asset('storage/' . $berita->image) : '' }}">
                                     <div id="native-placeholder" class="native-placeholder">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="native-icon" viewBox="0 0 24 24"
-                                             fill="none" stroke="{{ $errors->has('image') ? '#ff4d4f' : '#3396D3' }}"
-                                             stroke-width="1.5" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path
-                                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5"/>
-                                            <path d="M7 10.5l5-7 5 7"/>
-                                            <path d="M12 3v12"/>
+                                            fill="none" stroke="{{ $errors->has('image') ? '#ff4d4f' : '#3396D3' }}"
+                                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5" />
+                                            <path d="M7 10.5l5-7 5 7" />
+                                            <path d="M12 3v12" />
                                         </svg>
                                         <div class="native-text">Klik tombol pilih atau seret file ke sini</div>
                                         <div class="native-sub">Maks 4MB — format: jpg, png, gif</div>
                                         <button type="button" id="native-btn"
-                                                class="native-btn @error('image') btn-false  @enderror">Pilih Gambar
+                                            class="native-btn @error('image') btn-false  @enderror">Pilih Gambar
                                         </button>
                                     </div>
 
                                     <input type="file" id="native-image" name="image" accept="image/*"
-                                           class="native-input">
+                                        class="native-input">
 
                                     <div id="native-preview-wrapper" class="native-preview-wrapper" aria-hidden="true">
-                                        <img id="native-preview" class="native-preview" alt="Preview gambar"/>
+                                        <img id="native-preview" class="native-preview" alt="Preview gambar" />
                                         <button type="button" id="native-remove" class="native-remove"
-                                                title="Hapus gambar">Hapus
+                                            title="Hapus gambar">Hapus
                                         </button>
                                     </div>
                                 </div>
                                 <!-- END: Native CSS upload box -->
                             </div>
                             @error('image')
-                            <div class="invalid-feedback d-block">
-                                {{ $message }}
-                            </div>
+                                <div class="invalid-feedback d-block">
+                                    {{ $message }}
+                                </div>
                             @enderror
                         </div>
                     </div>
@@ -99,11 +99,11 @@
                     <!-- Tombol -->
                     <div class="d-flex justify-content-between align-items-center pt-3">
                         <a href="{{ route('berita.index') }}"
-                           class="btn btn-danger font-weight-semibold shadow-sm btn-hover-rise">
+                            class="btn btn-danger font-weight-semibold shadow-sm btn-hover-rise">
                             Batal
                         </a>
                         <button type="button" id="draft"
-                           class="btn btn-warning font-weight-semibold shadow-sm btn-hover-rise">
+                            class="btn btn-warning font-weight-semibold shadow-sm btn-hover-rise">
                             Simpan sebagai Draft
                         </button>
                         <button type="submit" class="btn btn-success font-weight-semibold shadow-sm">
@@ -117,9 +117,9 @@
 
 @endsection
 @push('styles')
-    <link rel="stylesheet" href="{{asset('assets/codemirror/lib/codemirror.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/codemirror/theme/duotone-dark.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/summernote/dist/summernote-bs4.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/codemirror/lib/codemirror.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/codemirror/theme/duotone-dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/summernote/dist/summernote-bs4.css') }}">
     <style>
         .native-dropzone {
             border: 2px dashed #d4d7db;
@@ -137,8 +137,10 @@
         }
 
         .native-dropzone.border-error {
-            border-color: #ff4d4f; /* Warna merah yang jelas untuk error */
-            box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1); /* Opsional: memberikan sedikit bayangan */
+            border-color: #ff4d4f;
+            /* Warna merah yang jelas untuk error */
+            box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1);
+            /* Opsional: memberikan sedikit bayangan */
         }
 
         .native-dropzone:focus,
@@ -255,11 +257,11 @@
 @endpush
 
 @push('scripts')
-    <script src="{{asset('assets/summernote/dist/summernote-bs4.js')}}"></script>
-    <script src="{{asset('assets/codemirror/lib/codemirror.js')}}"></script>
-    <script src="{{asset('assets/codemirror/mode/javascript/javascript.js')}}"></script>
+    <script src="{{ asset('assets/summernote/dist/summernote-bs4.js') }}"></script>
+    <script src="{{ asset('assets/codemirror/lib/codemirror.js') }}"></script>
+    <script src="{{ asset('assets/codemirror/mode/javascript/javascript.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const dropzone = document.getElementById('native-dropzone');
             const fileInput = document.getElementById('native-image');
             const previewWrapper = document.getElementById('native-preview-wrapper');
@@ -296,10 +298,19 @@
                 draft();
             });
 
-            function draft(){
+            function draft() {
                 const formBerita = document.getElementById('form-berita');
+                const $summernote = $('.summernote');
+
+                const currentContent = $summernote.summernote('code');
+                if ($summernote.summernote('isEmpty') || currentContent === '<p><br></p>') {
+                    $('#content').val('');
+                } else {
+                    $('#content').val(currentContent);
+                }
+
                 formBerita.action = "{{ route('berita.updateDraft', $berita->id) }}";
-                $('#content').summernote('code', $('#content').summernote('code'));
+
                 formBerita.submit();
             }
 
@@ -327,7 +338,7 @@
                 }
 
                 const reader = new FileReader();
-                reader.onload = function (ev) {
+                reader.onload = function(ev) {
                     previewImg.src = ev.target.result;
                     placeholder.style.display = 'none';
                     previewWrapper.style.display = 'flex';
@@ -336,14 +347,14 @@
                 reader.readAsDataURL(file);
             }
 
-            fileInput.addEventListener('change', function (e) {
+            fileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 handleFile(file);
             });
 
             // Drag & drop handlers (opsional tapi user-friendly)
             ['dragenter', 'dragover'].forEach(evt => {
-                dropzone.addEventListener(evt, function (e) {
+                dropzone.addEventListener(evt, function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     dropzone.classList.add('dragover');
@@ -351,14 +362,14 @@
             });
 
             ['dragleave', 'drop'].forEach(evt => {
-                dropzone.addEventListener(evt, function (e) {
+                dropzone.addEventListener(evt, function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     dropzone.classList.remove('dragover');
                 });
             });
 
-            dropzone.addEventListener('drop', function (e) {
+            dropzone.addEventListener('drop', function(e) {
                 const dt = e.dataTransfer;
                 if (!dt) return;
                 const file = dt.files[0];
@@ -369,7 +380,7 @@
             });
 
             // Remove preview
-            removeBtn.addEventListener('click', function () {
+            removeBtn.addEventListener('click', function() {
                 fileInput.value = '';
                 resetPreview();
             });
@@ -382,7 +393,7 @@
             }
 
             // Pastikan area bisa diakses via keyboard (enter untuk buka file dialog)
-            dropzone.addEventListener('keydown', function (e) {
+            dropzone.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     fileInput.click();

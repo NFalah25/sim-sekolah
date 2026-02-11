@@ -20,14 +20,14 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $news = Cache::remember('news', 600, function () {
+        $news = Cache::remember('news', 1, function () {
             $news = News::where('status', 1)->latest()->take(6)->get();
             return $news;
         });
-        $facilities = Cache::remember('facilities', 600, function () {
+        $facilities = Cache::remember('facilities', 1, function () {
             return Facility::latest()->take(6)->get();
         });
-        $achievements = Cache::remember('achievements', 600, function () {
+        $achievements = Cache::remember('achievements', 1, function () {
             $achievements = Achievement::orderBy('date', 'desc')->take(6)->get();
             return $achievements;
         });

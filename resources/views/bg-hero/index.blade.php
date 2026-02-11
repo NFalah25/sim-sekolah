@@ -279,7 +279,7 @@
             </div>
 
             <div class="popup-footer">
-                <button type="button" class="btn btn-secondary mr-2" onclick="closeModal('modalFormOverlay')">Batal</button>
+                <button type="button" class="btn btn-outline-danger mr-2" onclick="closeModal('modalFormOverlay')" >Batal</button>
                 <button type="submit" class="btn btn-primary" id="btnSubmit">Simpan</button>
             </div>
         </form>

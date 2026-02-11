@@ -91,6 +91,7 @@ class NewsController extends Controller
      */
     public function update(UpdateNewsRequest $request, News $beritum)
     {
+
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -106,7 +107,7 @@ class NewsController extends Controller
         }
 
         $beritum->update([
-            'title' => $data['title'],
+            'title' => $data['judul'],
             'description' => $data['description'],
             'content' => $data['content'],
             'status' => 1,
@@ -132,10 +133,15 @@ class NewsController extends Controller
     public function storeDraft(Request $request)
     {
         $validatedData = $request->validate([
-            'judul' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:100',
             'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
+        ], [], [
+            'title' => 'Judul Berita',
+            'description' => 'Deskripsi Berita',
+            'content' => 'Konten Berita',
+            'image' => 'Gambar Berita',
         ]);
 
         if ($request->hasFile('image')) {
@@ -144,7 +150,7 @@ class NewsController extends Controller
         }
 
         News::create([
-            'title' => $validatedData['judul'],
+            'title' => $validatedData['title'],
             'description' => $validatedData['description'] ?? '',
             'content' => $validatedData['content'] ?? '',
             'status' => 2,
@@ -161,9 +167,20 @@ class NewsController extends Controller
             'description' => 'nullable|string|max:100',
             'content' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
+        ], [], [
+            'judul' => 'Judul Berita',
+            'description' => 'Deskripsi Berita',
+            'content' => 'Konten Berita',
+            'image' => 'Gambar Berita',
         ]);
 
+
         if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            $oldImage = $beritum->image;
+            if ($oldImage && Storage::disk('public')->exists($oldImage)) {
+                Storage::disk('public')->delete($oldImage);
+            }
             $imagePath = $request->file('image')->store('images/news', 'public');
             $validatedData['image'] = $imagePath;
         }
