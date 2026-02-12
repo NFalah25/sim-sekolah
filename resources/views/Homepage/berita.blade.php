@@ -21,14 +21,21 @@
     .swiper-pagination-bullet-active {
         background-color: #3396D3 !important;
     }
+
+    /* Membuat semua slide memiliki tinggi yang mengikuti slide tertinggi */
+    .swiper-slide {
+        height: auto !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
 </style>
 <div class="">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <div class="w-24 h-1 bg-primary mb-4"></div>
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center justify-between mb-2">
             <h2 class="text-2xl font-bold text-gray-800 items-center flex">Berita<span
                     class="text-secondary">&nbsp;Terbaru</span></h2>
-            <a href="{{route('landing.berita')}}" class="text-primary font-semibold">SELENGKAPNYA</a>
+            <a href="{{ route('landing.berita') }}" class="text-primary font-semibold">SELENGKAPNYA</a>
         </div>
     </div>
     {{-- <div class="relative md:mx-32 mx-16"> --}}
@@ -41,7 +48,7 @@
                             class="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden h-full flex flex-col transform hover:-translate-y-2 transition-all duration-300">
                             <!-- Image Wrapper (ADDED overflow-hidden) -->
                             <div class="relative w-full h-56 flex-shrink-0 group overflow-hidden">
-                                <img src="{{ Storage::url($berita->image) }}" alt="Kegiatan Sekolah"
+                                <img src="{{ $berita->image }}" alt="Kegiatan Sekolah"
                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                                 <!-- Gradient Overlay & Title -->
                                 <div

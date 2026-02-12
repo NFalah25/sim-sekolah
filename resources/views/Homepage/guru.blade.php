@@ -16,7 +16,7 @@
     <div class="w-24 h-1 bg-third mt-6"></div>
     <div class="flex items-center justify-between mt-2 mb-6 gap-5">
         <h2 class="md:text-2xl text-lg font-bold text-white items-center flex">Guru dan Tenaga Pendidik</h2>
-        <a href="{{route('landing.guru')}}" class="text-primary font-semibold">SELENGKAPNYA</a>
+        <a href="{{ route('landing.guru') }}" class="text-primary font-semibold">SELENGKAPNYA</a>
     </div>
     <div class="relative">
         <button id="prev-btn"
@@ -44,26 +44,25 @@
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
-    // const teachersData = [
-    //     // Wali Kelas SD
-    //     { name: "Budi Santoso", subject: "Wali Kelas 1A", color: "indigo", initial: "B S", philosophy: "Belajar adalah Petualangan" },
-    //     { name: "Ayu Lestari", subject: "Wali Kelas 2B", color: "pink", initial: "A L", philosophy: "Tumbuh Bersama dengan Empati" },
-    //     { name: "Joko Prabowo", subject: "Wali Kelas 3C", color: "red", initial: "J P", philosophy: "Kemandirian Kunci Keberhasilan" },
-    //     { name: "Siti Rahma", subject: "Wali Kelas 4D", color: "teal", initial: "S R", philosophy: "Karakter adalah Fondasi Ilmu" },
-    //     { name: "David Chandra", subject: "Wali Kelas 5A", color: "blue", initial: "D C", philosophy: "Menciptakan Pemikir Kritis" },
-    //     { name: "Rina Fitri", subject: "Wali Kelas 1B", color: "purple", initial: "R F", philosophy: "Eksplorasi Dunia Lewat Permainan" },
-    //     { name: "Eko Wibowo", subject: "Wali Kelas 6B", color: "yellow", initial: "E W", philosophy: "Motivasi Menuju Masa Depan" },
-    //     { name: "Maya Sari", subject: "Wali Kelas 2C", color: "orange", initial: "M S", philosophy: "Teknologi Mendukung Kreativitas" },
-
-    //     // Tambahan contoh
-    //     { name: "Hadi Susanto", subject: "Wali Kelas 3A", color: "green", initial: "H S", philosophy: "Interaksi dan Komunikasi" },
-    //     { name: "Dina Puspita", subject: "Wali Kelas 4B", color: "cyan", initial: "D P", philosophy: "Pembelajaran Inklusif" },
-    //     { name: "Rio Firmansyah", subject: "Wali Kelas 5C", color: "lime", initial: "R F", philosophy: "Penguatan Logika Dasar" },
-    //     { name: "Lia Damayanti", subject: "Wali Kelas 6A", color: "fuchsia", initial: "L D", philosophy: "Disiplin dan Tanggung Jawab" },
-    // ];
-
     const teachersData = @json($teachers);
     console.log(teachersData);
+
+    function getInitials(name) {
+        const parts = name.trim().split(' ');
+        let initials = '';
+
+        if (parts.length > 0) {
+            // Ambil huruf pertama kata pertama
+            initials += parts[0][0];
+
+            if (parts.length > 1) {
+                // Ambil huruf pertama kata kedua
+                initials += parts[1][0];
+            }
+        }
+
+        return initials.toUpperCase();
+    }
 
     function createTeacherCard(teacher) {
         let imageUrl;

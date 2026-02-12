@@ -49,6 +49,11 @@
             </li>
         </ul>
     </li>
+    <li class="{{ request()->routeIs('guru.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('guru.index') }}">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Data Guru</span></a>
+    </li>
     <li class="{{ request()->routeIs('user.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('user.index') }}">
             <i class="fas fa-user"></i>

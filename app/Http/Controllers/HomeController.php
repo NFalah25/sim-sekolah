@@ -115,7 +115,7 @@ class HomeController extends Controller
 
     public function fasilitas()
     {
-        $fasilitas = Facility::select('name', 'image', 'description')->paginate(3);
+        $fasilitas = Facility::select('name', 'image', 'description')->paginate(6);
 
 
         return view('Menu.fasilitas', compact('fasilitas'));
@@ -151,6 +151,8 @@ class HomeController extends Controller
                     ->orWhere('content', 'like', '%' . $search . '%');
             });
         }
+
+
 
         $berita = $query->where('status', 1)->paginate(8)->appends($request->query());
 

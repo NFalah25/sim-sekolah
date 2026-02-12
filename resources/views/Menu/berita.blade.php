@@ -37,7 +37,7 @@
                     onclick="openModal(this)">
                     <div class="img-container relative h-48 bg-gray-200 flex-shrink-0">
                         <img src="{{ $data->image }}"
-                            alt="Thumbnail" class="w-full h-full object-cover">
+                            alt="{{ $data->title }}" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors"></div>
                         <!-- Hidden content for modal -->
                         <div class="hidden news-content-full">

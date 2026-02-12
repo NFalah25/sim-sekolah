@@ -5,7 +5,7 @@
     <div class="bg-white border-b mt-4 border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <p class="text-sm text-gray-500">
-                <a href="{{route('home')}}" class="hover:text-primary">Beranda</a>
+                <a href="{{ route('home') }}" class="hover:text-primary">Beranda</a>
                 <span class="mx-2 text-secondary">/</span>
                 <span class="font-semibold text-gray-800">Guru & Staff</span>
             </p>
@@ -34,8 +34,29 @@
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent z-10 pointer-events-none">
                         </div>
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($data->image) }}" alt="Foto Guru"
-                            class="w-full h-full object-cover object-top">
+
+                        @php
+                            $words = explode(' ', trim($data->name));
+                            $initials = strtoupper(substr($words[0], 0, 1));
+                            if (count($words) > 1) {
+                                $initials .= strtoupper(substr($words[1], 0, 1));
+                            }
+
+                            // URL Avatar
+                            $avatarUrl =
+                                'https://ui-avatars.com/api/?name=' .
+                                urlencode($initials) .
+                                '&background=2563eb&color=fff&size=512&bold=true';
+
+                            $hasImage = $data->image;
+                            $displayImage = $hasImage
+                                ? \Illuminate\Support\Facades\Storage::url($data->image)
+                                : $avatarUrl;
+                        @endphp
+
+                        <div class="w-full h-full bg-cover {{ $hasImage ? 'bg-top' : 'bg-center' }}"
+                            style="background-image: url('{{ $displayImage }}');">
+                        </div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
                         <div class="w-10 h-1 bg-yellow-400 rounded-full mb-4"></div>
@@ -133,6 +154,15 @@
     <style>
         .text-highlight {
             color: #3b82f6;
+        }
+
+        /* Update CSS untuk background div */
+        .image-wrapper div.bg-cover {
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .teacher-card:hover .image-wrapper div.bg-cover {
+            transform: scale(1.1);
         }
 
         /* Card Container */
